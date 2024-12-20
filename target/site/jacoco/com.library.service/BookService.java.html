@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GestionBibliotheque</a> &gt; <a href="index.source.html" class="el_package">com.library.service</a> &gt; <span class="el_source">BookService.java</span></div><h1>BookService.java</h1><pre class="source lang-java linenums">// BookService.java
+package com.library.service;
+
+import com.library.dao.BookDAO;
+import com.library.model.Book;
+
+import java.util.List;
+
+public class BookService {
+
+    private final BookDAO bookDAO;
+
+<span class="fc" id="L13">    public BookService(BookDAO bookDAO) {</span>
+<span class="fc" id="L14">        this.bookDAO = bookDAO;</span>
+<span class="fc" id="L15">    }</span>
+
+    public List&lt;Book&gt; getAllBooks() {
+<span class="nc" id="L18">        return bookDAO.getAll();</span>
+    }
+
+    public Book getBookById(int id) {
+<span class="nc" id="L22">        return bookDAO.getById(id);</span>
+    }
+
+    public void addBook(Book book) {
+        // Input validation can be added here before calling bookDAO.add()
+<span class="fc" id="L27">        bookDAO.add(book);</span>
+<span class="fc" id="L28">    }</span>
+
+    public void updateBook(Book book) {
+        // Input validation can be added here before calling bookDAO.update()
+<span class="fc" id="L32">        bookDAO.update(book);</span>
+<span class="fc" id="L33">    }</span>
+
+    public void deleteBook(int id) {
+<span class="fc" id="L36">        bookDAO.delete(id);</span>
+<span class="fc" id="L37">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

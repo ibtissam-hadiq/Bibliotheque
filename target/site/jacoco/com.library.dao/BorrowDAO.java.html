@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GestionBibliotheque</a> &gt; <a href="index.source.html" class="el_package">com.library.dao</a> &gt; <span class="el_source">BorrowDAO.java</span></div><h1>BorrowDAO.java</h1><pre class="source lang-java linenums">package com.library.dao;
+
+import com.library.model.Borrow;
+import com.library.util.DbConnection;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L10">public class BorrowDAO {</span>
+
+    public List&lt;Borrow&gt; getAll() {
+<span class="nc" id="L13">        List&lt;Borrow&gt; borrows = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L14">        String sql = &quot;SELECT * FROM borrows&quot;;</span>
+<span class="nc" id="L15">        try (Connection connection = DbConnection.getConnection();</span>
+<span class="nc" id="L16">             Statement statement = connection.createStatement();</span>
+<span class="nc" id="L17">             ResultSet resultSet = statement.executeQuery(sql)) {</span>
+
+<span class="nc bnc" id="L19" title="All 2 branches missed.">            while (resultSet.next()) {</span>
+<span class="nc" id="L20">                int id = resultSet.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L21">                String member = resultSet.getString(&quot;member&quot;);</span>
+<span class="nc" id="L22">                String book = resultSet.getString(&quot;book&quot;);</span>
+<span class="nc" id="L23">                Date borrowDate = resultSet.getDate(&quot;borrow_date&quot;);</span>
+<span class="nc" id="L24">                Date returnDate = resultSet.getDate(&quot;return_date&quot;);</span>
+<span class="nc" id="L25">                borrows.add(new Borrow(id, member, book, borrowDate, returnDate));</span>
+<span class="nc" id="L26">            }</span>
+<span class="nc" id="L27">        } catch (SQLException e) {</span>
+<span class="nc" id="L28">            System.err.println(&quot;Error getting all borrows: &quot; + e.getMessage());</span>
+<span class="nc" id="L29">        }</span>
+<span class="nc" id="L30">        return borrows;</span>
+    }
+
+    public Borrow getById(int id) {
+<span class="nc" id="L34">        String sql = &quot;SELECT * FROM borrows WHERE id = ?&quot;;</span>
+<span class="nc" id="L35">        try (Connection connection = DbConnection.getConnection();</span>
+<span class="nc" id="L36">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+
+<span class="nc" id="L38">            statement.setInt(1, id);</span>
+<span class="nc" id="L39">            try (ResultSet resultSet = statement.executeQuery()) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                if (resultSet.next()) {</span>
+<span class="nc" id="L41">                    String member = resultSet.getString(&quot;member&quot;);</span>
+<span class="nc" id="L42">                    String book = resultSet.getString(&quot;book&quot;);</span>
+<span class="nc" id="L43">                    Date borrowDate = resultSet.getDate(&quot;borrow_date&quot;);</span>
+<span class="nc" id="L44">                    Date returnDate = resultSet.getDate(&quot;return_date&quot;);</span>
+<span class="nc" id="L45">                    return new Borrow(id, member, book, borrowDate, returnDate);</span>
+                }
+<span class="nc bnc" id="L47" title="All 2 branches missed.">            }</span>
+<span class="nc bnc" id="L48" title="All 4 branches missed.">        } catch (SQLException e) {</span>
+<span class="nc" id="L49">            System.err.println(&quot;Error getting borrow by ID: &quot; + e.getMessage());</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">        return null;</span>
+    }
+
+    // In BorrowDAO.java, within the save() method
+
+    public void save(Borrow borrow) {
+<span class="nc" id="L57">        String query = &quot;INSERT INTO borrows (member, book, borrow_date, return_date) VALUES (?, ?, ?, ?)&quot;;</span>
+<span class="nc" id="L58">        try (Connection connection = DbConnection.getConnection();</span>
+<span class="nc" id="L59">             PreparedStatement stmt = connection.prepareStatement(query)) {</span>
+
+<span class="nc" id="L61">            stmt.setString(1, borrow.getMember());</span>
+<span class="nc" id="L62">            stmt.setString(2, borrow.getBook());</span>
+<span class="nc" id="L63">            stmt.setDate(3, new java.sql.Date(borrow.getBorrowDate().getTime()));</span>
+
+            // Handle potential null for returnDate
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            if (borrow.getReturnDate() != null) {</span>
+<span class="nc" id="L67">                stmt.setDate(4, new java.sql.Date(borrow.getReturnDate().getTime()));</span>
+            } else {
+<span class="nc" id="L69">                stmt.setNull(4, java.sql.Types.DATE);</span>
+            }
+
+<span class="nc" id="L72">            stmt.executeUpdate();</span>
+<span class="nc" id="L73">        } catch (SQLException e) {</span>
+<span class="nc" id="L74">            System.err.println(&quot;Error saving borrow: &quot; + e.getMessage());</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+    public void update(Borrow borrow) {
+<span class="nc" id="L78">        String sql = &quot;UPDATE borrows SET member = ?, book = ?, borrow_date = ?, return_date = ? WHERE id = ?&quot;;</span>
+<span class="nc" id="L79">        try (Connection connection = DbConnection.getConnection();</span>
+<span class="nc" id="L80">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+
+<span class="nc" id="L82">            statement.setString(1, borrow.getMember());</span>
+<span class="nc" id="L83">            statement.setString(2, borrow.getBook());</span>
+<span class="nc" id="L84">            statement.setDate(3, new java.sql.Date(borrow.getBorrowDate().getTime()));</span>
+<span class="nc" id="L85">            statement.setDate(4, new java.sql.Date(borrow.getReturnDate().getTime()));</span>
+<span class="nc" id="L86">            statement.setInt(5, borrow.getId());</span>
+
+<span class="nc" id="L88">            statement.executeUpdate();</span>
+<span class="nc" id="L89">        } catch (SQLException e) {</span>
+<span class="nc" id="L90">            System.err.println(&quot;Error updating borrow: &quot; + e.getMessage());</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc" id="L92">    }</span>
+
+    public void delete(int id) {
+<span class="nc" id="L95">        String sql = &quot;DELETE FROM borrows WHERE id = ?&quot;;</span>
+<span class="nc" id="L96">        try (Connection connection = DbConnection.getConnection();</span>
+<span class="nc" id="L97">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+
+<span class="nc" id="L99">            statement.setInt(1, id);</span>
+<span class="nc" id="L100">            statement.executeUpdate();</span>
+<span class="nc" id="L101">        } catch (SQLException e) {</span>
+<span class="nc" id="L102">            System.err.println(&quot;Error deleting borrow: &quot; + e.getMessage());</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+GestionBibliotheque,com.library.model,Book,29,24,0,0,13,9,8,3,8,3
+GestionBibliotheque,com.library.model,Student,15,18,0,0,7,7,4,3,4,3
+GestionBibliotheque,com.library.model,Borrow,28,25,0,0,12,10,8,3,8,3
+GestionBibliotheque,com.library.dao,StudentDAO,194,0,10,0,60,0,11,0,6,0
+GestionBibliotheque,com.library.dao,BorrowDAO,258,0,12,0,70,0,12,0,6,0
+GestionBibliotheque,com.library.dao,BookDAO,234,0,10,0,68,0,11,0,6,0
+GestionBibliotheque,com.library,Main,319,0,21,0,103,0,24,0,10,0
+GestionBibliotheque,com.library.util,DbConnection,23,0,0,0,6,0,2,0,2,0
+GestionBibliotheque,com.library.service,BorrowService,10,80,3,3,2,22,3,7,0,7
+GestionBibliotheque,com.library.service,BookService,9,21,0,0,2,9,2,4,2,4
+GestionBibliotheque,com.library.service,StudentService,9,21,0,0,2,9,2,4,2,4

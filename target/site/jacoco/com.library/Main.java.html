@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GestionBibliotheque</a> &gt; <a href="index.source.html" class="el_package">com.library</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package com.library;
+
+import com.library.dao.BookDAO;
+import com.library.dao.BorrowDAO;
+import com.library.dao.StudentDAO;
+import com.library.model.Book;
+import com.library.model.Borrow;
+import com.library.model.Student;
+import com.library.service.BookService;
+import com.library.service.BorrowService;
+import com.library.service.StudentService;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
+<span class="nc" id="L17">public class Main {</span>
+
+<span class="nc" id="L19">    private static final BookDAO bookDAO = new BookDAO();</span>
+<span class="nc" id="L20">    private static final StudentDAO studentDAO = new StudentDAO();</span>
+<span class="nc" id="L21">    private static final BorrowDAO borrowDAO = new BorrowDAO();</span>
+
+<span class="nc" id="L23">    private static final BookService bookService = new BookService(bookDAO);</span>
+<span class="nc" id="L24">    private static final StudentService studentService = new StudentService(studentDAO);</span>
+<span class="nc" id="L25">    private static final BorrowService borrowService = new BorrowService(borrowDAO, bookDAO, studentDAO);</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L28">        Scanner scanner = new Scanner(System.in);</span>
+
+        while (true) {
+<span class="nc" id="L31">            System.out.println(&quot;\nLibrary Management System&quot;);</span>
+<span class="nc" id="L32">            System.out.println(&quot;1. Add book&quot;);</span>
+<span class="nc" id="L33">            System.out.println(&quot;2. View all books&quot;);</span>
+<span class="nc" id="L34">            System.out.println(&quot;3. Add student&quot;);</span>
+<span class="nc" id="L35">            System.out.println(&quot;4. View all students&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot;5. Borrow book&quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot;6. View all borrows&quot;);</span>
+<span class="nc" id="L38">            System.out.println(&quot;7. Return book&quot;);</span>
+<span class="nc" id="L39">            System.out.println(&quot;8. Exit&quot;);</span>
+<span class="nc" id="L40">            System.out.print(&quot;Enter your choice: &quot;);</span>
+
+<span class="nc" id="L42">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L43">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L45" title="All 9 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L47">                    addBook(scanner);</span>
+<span class="nc" id="L48">                    break;</span>
+                case 2:
+<span class="nc" id="L50">                    viewAllBooks();</span>
+<span class="nc" id="L51">                    break;</span>
+                case 3:
+<span class="nc" id="L53">                    addStudent(scanner);</span>
+<span class="nc" id="L54">                    break;</span>
+                case 4:
+<span class="nc" id="L56">                    viewAllStudents();</span>
+<span class="nc" id="L57">                    break;</span>
+                case 5:
+<span class="nc" id="L59">                    borrowBook(scanner);</span>
+<span class="nc" id="L60">                    break;</span>
+                case 6:
+<span class="nc" id="L62">                    viewAllBorrows();</span>
+<span class="nc" id="L63">                    break;</span>
+                case 7:
+<span class="nc" id="L65">                    returnBook(scanner);</span>
+<span class="nc" id="L66">                    break;</span>
+                case 8:
+<span class="nc" id="L68">                    System.out.println(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L69">                    scanner.close();</span>
+<span class="nc" id="L70">                    return;</span>
+                default:
+<span class="nc" id="L72">                    System.out.println(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc" id="L74">        }</span>
+    }
+
+    private static void addBook(Scanner scanner) {
+<span class="nc" id="L78">        System.out.print(&quot;Enter title: &quot;);</span>
+<span class="nc" id="L79">        String title = scanner.nextLine();</span>
+<span class="nc" id="L80">        System.out.print(&quot;Enter author: &quot;);</span>
+<span class="nc" id="L81">        String author = scanner.nextLine();</span>
+<span class="nc" id="L82">        System.out.print(&quot;Enter publisher: &quot;);</span>
+<span class="nc" id="L83">        String publisher = scanner.nextLine();</span>
+<span class="nc" id="L84">        System.out.print(&quot;Enter year: &quot;);</span>
+<span class="nc" id="L85">        int year = scanner.nextInt();</span>
+<span class="nc" id="L86">        scanner.nextLine(); // Consume newline</span>
+
+<span class="nc" id="L88">        Book book = new Book(0, title, author, publisher, year);</span>
+<span class="nc" id="L89">        bookService.addBook(book);</span>
+<span class="nc" id="L90">        System.out.println(&quot;Book added successfully.&quot;);</span>
+<span class="nc" id="L91">    }</span>
+
+    private static void viewAllBooks() {
+<span class="nc" id="L94">        List&lt;Book&gt; books = bookService.getAllBooks();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (books.isEmpty()) {</span>
+<span class="nc" id="L96">            System.out.println(&quot;No books found.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            for (Book book : books) {</span>
+<span class="nc" id="L99">                System.out.println(book.getId() + &quot;. &quot; + book.getTitle() + &quot; by &quot; + book.getAuthor());</span>
+<span class="nc" id="L100">            }</span>
+        }
+<span class="nc" id="L102">    }</span>
+
+    private static void addStudent(Scanner scanner) {
+<span class="nc" id="L105">        System.out.print(&quot;Enter name: &quot;);</span>
+<span class="nc" id="L106">        String name = scanner.nextLine();</span>
+<span class="nc" id="L107">        System.out.print(&quot;Enter email: &quot;);</span>
+<span class="nc" id="L108">        String email = scanner.nextLine();</span>
+
+<span class="nc" id="L110">        Student student = new Student(0, name, email);</span>
+<span class="nc" id="L111">        studentService.addStudent(student);</span>
+<span class="nc" id="L112">        System.out.println(&quot;Student added successfully.&quot;);</span>
+<span class="nc" id="L113">    }</span>
+
+    private static void viewAllStudents() {
+<span class="nc" id="L116">        List&lt;Student&gt; students = studentService.getAllStudents();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (students.isEmpty()) {</span>
+<span class="nc" id="L118">            System.out.println(&quot;No students found.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            for (Student student : students) {</span>
+<span class="nc" id="L121">                System.out.println(student.getId() + &quot;. &quot; + student.getName() + &quot; (&quot; + student.getEmail() + &quot;)&quot;);</span>
+<span class="nc" id="L122">            }</span>
+        }
+<span class="nc" id="L124">    }</span>
+
+    private static void borrowBook(Scanner scanner) {
+<span class="nc" id="L127">        System.out.print(&quot;Enter student ID: &quot;);</span>
+<span class="nc" id="L128">        int studentId = scanner.nextInt();</span>
+<span class="nc" id="L129">        System.out.print(&quot;Enter book ID: &quot;);</span>
+<span class="nc" id="L130">        int bookId = scanner.nextInt();</span>
+<span class="nc" id="L131">        scanner.nextLine(); // Consume newline</span>
+
+        try {
+<span class="nc" id="L134">            borrowService.borrowBook(studentId, bookId);</span>
+<span class="nc" id="L135">            System.out.println(&quot;Book borrowed successfully.&quot;);</span>
+<span class="nc" id="L136">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L137">            System.err.println(e.getMessage());</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">    }</span>
+
+    private static void viewAllBorrows() {
+<span class="nc" id="L142">        List&lt;Borrow&gt; borrows = borrowService.getAllBorrows();</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (borrows.isEmpty()) {</span>
+<span class="nc" id="L144">            System.out.println(&quot;No borrows found.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            for (Borrow borrow : borrows) {</span>
+<span class="nc" id="L147">                System.out.println(borrow.getId() + &quot;. &quot; + borrow.getBook() + &quot; borrowed by &quot; + borrow.getMember()</span>
+<span class="nc" id="L148">                        + &quot; on &quot; + borrow.getBorrowDate());</span>
+<span class="nc" id="L149">            }</span>
+        }
+<span class="nc" id="L151">    }</span>
+
+    private static void returnBook(Scanner scanner) {
+<span class="nc" id="L154">        System.out.print(&quot;Enter borrow ID: &quot;);</span>
+<span class="nc" id="L155">        int borrowId = scanner.nextInt();</span>
+<span class="nc" id="L156">        scanner.nextLine(); // Consume newline</span>
+
+        try {
+<span class="nc" id="L159">            borrowService.returnBook(borrowId);</span>
+<span class="nc" id="L160">            System.out.println(&quot;Book returned successfully.&quot;);</span>
+<span class="nc" id="L161">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L162">            System.err.println(e.getMessage());</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

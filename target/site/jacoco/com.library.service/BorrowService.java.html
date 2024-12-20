@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BorrowService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">GestionBibliotheque</a> &gt; <a href="index.source.html" class="el_package">com.library.service</a> &gt; <span class="el_source">BorrowService.java</span></div><h1>BorrowService.java</h1><pre class="source lang-java linenums">// BorrowService.java
+package com.library.service;
+
+import com.library.dao.BookDAO;
+import com.library.dao.BorrowDAO;
+import com.library.dao.StudentDAO;
+import com.library.model.Book;
+import com.library.model.Borrow;
+import com.library.model.Student;
+
+import java.util.Date;
+import java.util.List;
+
+public class BorrowService {
+
+    private final BorrowDAO borrowDAO;
+    private final BookDAO bookDAO;
+    private final StudentDAO studentDAO;
+
+<span class="fc" id="L20">    public BorrowService(BorrowDAO borrowDAO, BookDAO bookDAO, StudentDAO studentDAO) {</span>
+<span class="fc" id="L21">        this.borrowDAO = borrowDAO;</span>
+<span class="fc" id="L22">        this.bookDAO = bookDAO;</span>
+<span class="fc" id="L23">        this.studentDAO = studentDAO;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void borrowBook(int studentId, int bookId) {
+<span class="fc" id="L27">        Student student = studentDAO.getById(studentId);</span>
+<span class="fc" id="L28">        Book book = bookDAO.getById(bookId);</span>
+
+<span class="pc bpc" id="L30" title="2 of 4 branches missed.">        if (student == null || book == null) {</span>
+<span class="nc" id="L31">            throw new IllegalArgumentException(&quot;Invalid student ID or book ID.&quot;);</span>
+        }
+
+<span class="fc" id="L34">        Borrow borrow = new Borrow(0, student.getName(), book.getTitle(), new Date(), null);</span>
+<span class="fc" id="L35">        borrowDAO.save(borrow);</span>
+<span class="fc" id="L36">    }</span>
+
+    public List&lt;Borrow&gt; getAllBorrows() {
+<span class="fc" id="L39">        return borrowDAO.getAll();</span>
+    }
+
+    public Borrow getBorrowById(int id) {
+<span class="fc" id="L43">        return borrowDAO.getById(id);</span>
+    }
+
+    public void updateBorrow(Borrow borrow) {
+        // Input validation can be added here
+<span class="fc" id="L48">        borrowDAO.update(borrow);</span>
+<span class="fc" id="L49">    }</span>
+
+    public void deleteBorrow(int id) {
+<span class="fc" id="L52">        borrowDAO.delete(id);</span>
+<span class="fc" id="L53">    }</span>
+
+    // You would likely have a returnBook method here as well
+    public void returnBook(int borrowId) {
+<span class="fc" id="L57">        Borrow borrow = borrowDAO.getById(borrowId);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (borrow == null) {</span>
+<span class="nc" id="L59">            throw new IllegalArgumentException(&quot;Invalid borrow ID.&quot;);</span>
+        }
+
+<span class="fc" id="L62">        borrow.setReturnDate(new Date());</span>
+<span class="fc" id="L63">        borrowDAO.update(borrow);</span>
+<span class="fc" id="L64">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
