@@ -28,7 +28,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nLibrary Management System with jenkins");
+            System.out.println("\nLibrary Management System with jenkins file");
             System.out.println("1. Add book");
             System.out.println("2. View all books");
             System.out.println("3. Add student");
