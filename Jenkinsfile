@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-            jdk 'Java17'
-            maven 'Maven3'
+            jdk 'Java-17'
+            maven 'maven'
     }
     environment {
             REPO_URL = 'https://github.com/ibtissam-hadiq/Bibliotheque.git'
